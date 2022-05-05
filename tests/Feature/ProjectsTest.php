@@ -28,6 +28,18 @@ class ProjectsTest extends TestCase
         $this->get('projects')->assertSee($attributes['title']);
     }
 
+    /** @test  */
+    public function a_user_can_view_the_project()
+    {
+        $this->withoutExceptionHandling();
+
+        $project = Project::factory()->create();
+
+        $this->get(route('projects.show', $project))
+            ->assertSee($project->title)
+            ->assertSee($project->description);
+    }
+
     /** @test */
     public function a_project_requires_a_title()
     {
