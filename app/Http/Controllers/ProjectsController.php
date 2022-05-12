@@ -18,8 +18,11 @@ class ProjectsController extends Controller
     {
         $attributes = $request->validate([
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'user_id' => 'required'
         ]);
+
+        //dd($attributes);
 
         Project::create($attributes);
 
