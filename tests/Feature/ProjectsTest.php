@@ -11,7 +11,7 @@ class ProjectsTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /** @test */
-    public function test_project_test()
+    public function a_user_can_create_a_project()
     {
         $this->withoutExceptionHandling();
 
