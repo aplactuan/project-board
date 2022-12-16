@@ -8,13 +8,9 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Projects</h1>
-    <ul>
-        @foreach($projects as $project)
-            <li>
-                <a href="{{ $project->path() }}">{{ $project->title }}</a>
-            </li>
-        @endforeach
-    </ul>
+    <h1>{{ $project->title }}</h1>
+    <div>
+        <p>{{ $project->description }}</p>
+    </div>
 </body>
 </html>

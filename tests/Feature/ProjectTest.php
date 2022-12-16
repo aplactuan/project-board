@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class ProjectsTest extends TestCase
+class ProjectTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
@@ -26,6 +26,18 @@ class ProjectsTest extends TestCase
         $this->assertDatabaseHas('projects', $attributes);
 
         $this->get('/projects')->assertSee($attributes['title']);
+    }
+
+    /** @test */
+    public function a_user_can_view_a_project()
+    {
+        $this->withoutExceptionHandling();
+
+        $project = Project::factory()->create();
+
+        $this->get('/projects/' . $project->id)
+            ->assertSee($project->title)
+            ->assertSee($project->description);
     }
 
     /** @test */
