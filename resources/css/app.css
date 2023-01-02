@@ -10,4 +10,8 @@
     @apply bg-blue-300
 }
 
+.card {
+    @apply bg-white col-span-1 divide-gray-200 divide-y rounded-lg shadow
+}
+
 
