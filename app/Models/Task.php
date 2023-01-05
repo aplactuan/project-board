@@ -11,11 +11,17 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'body'
+        'body',
+        'completed'
     ];
 
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function path(): string
+    {
+        return $this->project->path() . '/tasks/' . $this->id;
     }
 }
