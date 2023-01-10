@@ -26,7 +26,7 @@ class ManageProjectsTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_manage_a_project()
+    public function a_user_can_create_a_project()
     {
         //$this->withoutExceptionHandling();
         $this->actingAs(User::factory()->create());
@@ -35,14 +35,37 @@ class ManageProjectsTest extends TestCase
 
         $attributes = [
             'title' => $this->faker->sentence,
-            'description' => $this->faker->text
+            'description' => $this->faker->text,
+            'notes' => 'General notes'
         ];
 
         $this->post('/projects', $attributes)->assertRedirect('/projects');
 
+        $project = Project::where($attributes)->first();
+
         $this->assertDatabaseHas('projects', $attributes);
 
         $this->get('/projects')->assertSee($attributes['title']);
+
+        $this->get($project->path())
+            ->assertSee($attributes['title'])
+            ->assertSee($attributes['description'])
+            ->assertSee($attributes['notes']);
+    }
+
+    /** @test */
+    public function a_user_can_update_a_project()
+    {
+        $this->withoutExceptionHandling();
+        $this->be(User::factory()->create());
+
+        $project = Project::factory()->create(['owner_id' => auth()->user()->id]);
+
+        $this->patch($project->path(), [
+            'notes' => 'Change'
+        ])->assertRedirect($project->path());
+
+        $this->assertDatabaseHas('projects', ['notes' => 'Change']);
     }
 
     /** @test */
@@ -55,6 +78,21 @@ class ManageProjectsTest extends TestCase
         $this->get($project->path())
             ->assertSee($project->title)
             ->assertSee($project->description);
+    }
+
+    /** @test  */
+    public function a_user_cannot_update_other_project()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $project = Project::factory()->create();
+
+        $this->patch($project->path(),[
+            'notes' => 'Change'
+        ])->assertStatus(403);
+
+        $this->assertDatabaseMissing('projects', ['notes' => 'Change']);
     }
 
     /** @test  */

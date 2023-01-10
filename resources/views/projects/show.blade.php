@@ -15,7 +15,7 @@
                     @endforeach
                 </div>
                 <h3 class="font-lg mb-3 text-gray-500">General Notes</h3>
-                <div class="card">General Notes</div>
+                <div class="card">{{ $project->notes }}</div>
             </div>
             <div class="lg:w-1/4 px-2">
                 <div class="card p-4">
