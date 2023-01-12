@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Facades\Tests\Setup\ProjectFactory;
 use Tests\TestCase;
 
 class ManageProjectsTest extends TestCase
@@ -29,7 +30,7 @@ class ManageProjectsTest extends TestCase
     public function a_user_can_create_a_project()
     {
         //$this->withoutExceptionHandling();
-        $this->actingAs(User::factory()->create());
+        $this->signIn();
 
         $this->get('/projects/create')->assertStatus(200);
 
@@ -56,10 +57,9 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_user_can_update_a_project()
     {
-        $this->withoutExceptionHandling();
-        $this->be(User::factory()->create());
+        $user = $this->signIn();
 
-        $project = Project::factory()->create(['owner_id' => auth()->user()->id]);
+        $project = ProjectFactory::ownedBy($user)->create();
 
         $this->patch($project->path(), [
             'notes' => 'Change'
@@ -71,9 +71,9 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_user_can_view_his_project()
     {
-        $this->be(User::factory()->create());
+        $user = $this->signIn();
 
-       $project = Project::factory()->create(['owner_id' => auth()->user()->id]);
+        $project = ProjectFactory::ownedBy($user)->create();
 
         $this->get($project->path())
             ->assertSee($project->title)
@@ -83,8 +83,7 @@ class ManageProjectsTest extends TestCase
     /** @test  */
     public function a_user_cannot_update_other_project()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user);
+        $user = $this->signIn();
 
         $project = Project::factory()->create();
 
@@ -98,8 +97,7 @@ class ManageProjectsTest extends TestCase
     /** @test  */
     public function a_user_cannot_view_other_project()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user);
+        $user = $this->signIn();
 
         $project = Project::factory()->create();
 
@@ -109,7 +107,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_project_requires_title()
     {
-        $this->actingAs(User::factory()->create());
+        $this->signIn();
 
         $attributes = Project::factory()->raw(['title' => '']);
 
@@ -119,7 +117,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_project_requires_body()
     {
-        $this->actingAs(User::factory()->create());
+        $this->signIn();
 
         $attributes = Project::factory()->raw(['description' => '']);
 

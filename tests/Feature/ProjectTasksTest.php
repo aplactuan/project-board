@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Facades\Tests\Setup\ProjectFactory;
 use Tests\TestCase;
 
 class ProjectTasksTest extends TestCase
@@ -24,7 +25,7 @@ class ProjectTasksTest extends TestCase
     /** @test */
     public function only_project_owner_can_add_a_task()
     {
-        $this->be(User::factory()->create());
+        $this->signIn();
 
         $project = Project::factory()->create();
 
@@ -35,11 +36,11 @@ class ProjectTasksTest extends TestCase
     /** @test */
     public function only_project_owner_can_update_a_task()
     {
-        $this->be(User::factory()->create());
+        $this->signIn();
 
-        $task = Task::factory()->create();
+        $project = ProjectFactory::withTasks(1)->create();
 
-        $this->patch($task->path(), [
+        $this->patch($project->tasks()->first()->path(), [
             'body' => 'Change',
             'completed' => true
         ])->assertStatus(403);
@@ -51,18 +52,18 @@ class ProjectTasksTest extends TestCase
     }
 
     /** @test */
-    public function a_project_can_be_updated()
+    public function a_project_task_can_be_updated()
     {
-        $this->be(User::factory()->create());
+        $user = $this->signIn();
 
-        $project = Project::factory()->create(['owner_id' => auth()->user()->id]);
+        $project = ProjectFactory::ownedBy($user)
+            ->withTasks(1)
+            ->create();
 
-        $task = Task::factory(['project_id' => $project->id])->create();
-
-        $this->patch($task->path(), [
+        $this->patch($project->tasks()->first()->path(), [
             'body' => 'Change',
             'completed' => true
-        ]);
+        ])->assertRedirect($project->path());
 
         $this->assertDatabaseHas('tasks', [
             'body' => 'Change',
@@ -73,7 +74,7 @@ class ProjectTasksTest extends TestCase
     /** @test */
     public function a_project_can_add_task()
     {
-        $this->be(User::factory()->create());
+        $this->signIn();
 
         $project = Project::factory()->create(['owner_id' => auth()->user()->id]);
 
@@ -85,7 +86,7 @@ class ProjectTasksTest extends TestCase
     /** @test */
     public function a_project_requires_a_body()
     {
-        $this->be(User::factory()->create());
+        $this->signIn();
 
         $project = Project::factory()->create(['owner_id' => auth()->user()->id]);
 
