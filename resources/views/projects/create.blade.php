@@ -17,6 +17,10 @@
                         <div>
                             <textarea name="description" cols="30" rows="10"></textarea>
                         </div>
+                        <div class="flex">
+                            <button type="submit">Submit</button>
+                            <a href="/projects">Cancel</a>
+                        </div>
                     </form>
                 </div>
             </div>

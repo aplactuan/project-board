@@ -16,12 +16,16 @@
                 </div>
                 <h3 class="font-lg mb-3 text-gray-500">General Notes</h3>
                 <div class="card">{{ $project->notes }}</div>
+                <div>
+                    <a href="/projects">Go back</a>
+                </div>
             </div>
             <div class="lg:w-1/4 px-2">
                 <div class="card p-4">
                     {{ $project->title }}
                     {{ $project->description }}
                 </div>
+
             </div>
         </div>
     </main>

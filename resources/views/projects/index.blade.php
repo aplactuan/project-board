@@ -4,7 +4,7 @@
             <div class=overflow-hidden">
                 <div class="flex items-center justify-between my-5">
                     <h2 class="text-gray-500 text-lg">My Projects</h2>
-                    <a href="#" class="btn btn-blue">Add Projects</a>
+                    <a href="/projects/create" class="btn btn-blue">Add Projects</a>
                 </div>
                 <div>
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
