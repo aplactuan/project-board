@@ -16,7 +16,9 @@ class ProjectTasksController extends Controller
             'body' => ['required']
         ]);
 
-        return $project->addTask($input['body']);
+        $project->addTask($input['body']);
+
+        return redirect($project->path());
     }
 
     public function update(Project $project, Task $task, Request $request)

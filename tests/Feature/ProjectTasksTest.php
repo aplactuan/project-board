@@ -29,7 +29,7 @@ class ProjectTasksTest extends TestCase
 
         $project = Project::factory()->create();
 
-        $this->post($project->path() . '/tasks', Task::factory()->raw(['project_id' => $project->id]))
+        $this->post($project->path() . '/tasks', $task = Task::factory()->raw(['project_id' => $project->id]))
             ->assertStatus(403);
     }
 

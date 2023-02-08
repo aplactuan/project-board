@@ -14,6 +14,20 @@
                                 {{ $task->body }}
                             </div>
                         @endforeach
+                            <div class="card p-4">
+                                <form action="{{ $project->path() . '/tasks' }}" method="POST">
+                                    @csrf
+                                    <div class="flex justify-between space-x-2">
+                                        <x-text-input
+                                            name="body"
+                                            class="block w-full pl-4 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                            placeholder="Add Task"
+                                        />
+                                        <button type="submit" class="btn btn-blue">Add</button>
+                                    </div>
+
+                                </form>
+                            </div>
                     </div>
                     <h3 class="font-lg mb-3 text-gray-500">General Notes</h3>
                     <div class="card">{{ $project->notes }}</div>
