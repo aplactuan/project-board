@@ -13,7 +13,24 @@
                     <div class="space-y-2">
                         @foreach($project->tasks as $task)
                             <div class="card p-4">
-                                {{ $task->body }}
+                                <form method="POST" action="{{ route('project.task.update', compact('project', 'task')) }}">
+                                    @csrf
+                                    @method('PATCH')
+                                    <div class="flex items-center space-x-3">
+                                        <x-text-input
+                                            class="w-full p-2 {{ $task->completed ? 'text-gray-400' : '' }}"
+                                            name="body"
+                                            value="{{ $task->body }}"
+                                        />
+                                        <input class="w-4 h-4"
+                                               type="checkbox"
+                                               name="completed"
+                                               @if($task->completed) checked @endif
+                                               onChange="this.form.submit()"
+                                        />
+                                    </div>
+                                </form>
+
                             </div>
                         @endforeach
                             <div class="card p-4">

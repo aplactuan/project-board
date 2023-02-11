@@ -30,15 +30,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function () {
+Route::name('project.')->middleware('auth')->group(function () {
     Route::get('/projects', [ProjectController::class, 'index']);
     Route::post('/projects', [ProjectController::class, 'store']);
     Route::get('/projects/create', [ProjectController::class, 'create']);
     Route::get('/projects/{project}', [ProjectController::class, 'show']);
     Route::get('/projects/{project}/edit', [ProjectController::class, 'edit']);
     Route::patch('/projects/{project}', [ProjectController::class, 'update']);
-    Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store']);
-    Route::patch('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'update']);
+    Route::name('task.')->group(function() {
+        Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store'])->name('index');
+        Route::patch('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'update'])->name('update');
+    });
 });
 
 
