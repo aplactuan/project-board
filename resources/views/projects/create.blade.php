@@ -9,7 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form action="/projects" method="POST" class="space-y-8 divide-y divide-gray-200">
+                    <x-project-form :project="$project" />
+                    {{--<form action="/projects" method="POST" class="space-y-8 divide-y divide-gray-200">
                         @csrf
                         <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
                             <div class="space-y-6 sm:space-y-5">
@@ -52,7 +53,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form>--}}
                 </div>
             </div>
         </div>

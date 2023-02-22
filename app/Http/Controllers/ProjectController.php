@@ -23,7 +23,8 @@ class ProjectController extends Controller
 
     public function create()
     {
-        return view('projects.create');
+        $project = new Project();
+        return view('projects.create', compact('project'));
     }
 
     public function store(Request $request)
