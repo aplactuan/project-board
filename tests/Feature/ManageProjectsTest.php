@@ -66,15 +66,47 @@ class ManageProjectsTest extends TestCase
             ->assertSee($project->description);
 
         $this->patch($project->path(), [
-            'notes' => 'Change',
             'title' => 'Title Change',
             'description' => 'Description change'
         ])->assertRedirect($project->path());
 
         $this->assertDatabaseHas('projects', [
-            'notes' => 'Change',
             'title' => 'Title Change',
             'description' => 'Description change'
+        ]);
+    }
+
+    /** @test */
+    public function a_user_can_update_project_notes_only()
+    {
+        $user = $this->signIn();
+
+        $project = ProjectFactory::ownedBy($user)->create();
+
+        $this->patch($project->path(), [
+            'notes' => 'Note change',
+        ])->assertRedirect($project->path());
+
+        $this->assertDatabaseHas('projects', [
+            'notes' => 'Note change',
+        ]);
+    }
+
+    /** @test */
+    public function a_user_can_clear_the_notes_of_the_project()
+    {
+        $user = $this->signIn();
+
+        $project = ProjectFactory::ownedBy($user)->create([
+            'notes' => 'Project notes'
+        ]);
+
+        $this->patch($project->path(), [
+            'notes' => '',
+        ])->assertRedirect($project->path());
+
+        $this->assertDatabaseHas('projects', [
+            'notes' => null,
         ]);
     }
 
