@@ -14,7 +14,7 @@ class ProjectObserver
      */
     public function created(Project $project)
     {
-        $this->addActivity($project, 'created');
+        $project->addActivity('created');
     }
 
     /**
@@ -25,7 +25,7 @@ class ProjectObserver
      */
     public function updated(Project $project)
     {
-        $this->addActivity($project, 'updated');
+        $project->addActivity('updated');
     }
 
     /**
@@ -59,15 +59,5 @@ class ProjectObserver
     public function forceDeleted(Project $project)
     {
         //
-    }
-
-    /**
-     * @param Project $project
-     */
-    protected function addActivity(Project $project, $type): void
-    {
-        $project->activities()->create([
-            'description' => $type
-        ]);
     }
 }

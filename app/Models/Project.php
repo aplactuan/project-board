@@ -37,4 +37,9 @@ class Project extends Model
     {
         return $this->tasks()->create(compact('body'));
     }
+
+    public function addActivity($description)
+    {
+        return $this->activities()->create(compact('description'));
+    }
 }

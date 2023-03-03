@@ -15,6 +15,10 @@ class Task extends Model
         'completed'
     ];
 
+    protected $casts = [
+        'completed' => 'boolean'
+    ];
+
     protected $touches = ['project'];
 
     public function project(): BelongsTo
@@ -25,5 +29,12 @@ class Task extends Model
     public function path(): string
     {
         return $this->project->path() . '/tasks/' . $this->id;
+    }
+
+    public function complete()
+    {
+        $this->update([
+            'completed' => true
+        ]);
     }
 }
