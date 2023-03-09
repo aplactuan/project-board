@@ -3,27 +3,36 @@
 namespace Tests\Unit;
 
 use App\Models\Project;
+use App\Models\Task;
 use Facades\Tests\Setup\ProjectFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ActivityFeedTest extends TestCase
+class RecordActivityTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_records_activity_when_project_is_created()
+    /** @test */
+    public function project_is_created()
     {
-        $project = Project::factory()->create();
+        $this->signIn();
+
+        $this->post('/projects', $attributes = Project::factory()->raw());
+
+        $project = Project::where('title', $attributes['title'])->first();
 
         $this->assertCount(1, $project->activities);
         $this->assertEquals('created', $project->activities->first()->description);
     }
 
-    public function test_it_records_activity_when_project_is_updated()
+    /** @test  */
+    public function project_is_updated()
     {
-        $project = Project::factory()->create();
+        $user = $this->signIn();
 
-        $project->update([
+        $project = ProjectFactory::ownedBy($user)->create();
+
+        $this->patch($project->path(), [
             'title' => 'Change the title'
         ]);
 
@@ -31,19 +40,23 @@ class ActivityFeedTest extends TestCase
         $this->assertCount(2, $project->activities);
     }
 
-    public function test_it_records_activity_when_project_task_is_created()
+    /** @test */
+    public function project_task_is_created()
     {
         $user = $this->signIn();
 
         $project = ProjectFactory::ownedBy($user)->create();
 
-        $project->addTask('Test Task');
+        $this->post($project->path() . '/tasks', Task::factory()->raw([
+            'project_id' => $project->id
+        ]));
 
         $this->assertEquals('task created', $project->activities->last()->description);
         $this->assertCount(2, $project->activities);
     }
 
-    public function test_it_records_activity_when_project_is_completed()
+    /** @test  */
+    public function project_task_is_completed()
     {
         $user = $this->signIn();
 
@@ -51,11 +64,12 @@ class ActivityFeedTest extends TestCase
 
         $task = $project->addTask('Test Task');
 
-        $task->complete();
+        $this->patch($task->path(), [
+            'body' => $task->body,
+            'completed' => true
+        ]);
 
         $this->assertEquals('task completed', $project->activities->last()->description);
         $this->assertCount(3, $project->activities);
     }
-
-
 }
