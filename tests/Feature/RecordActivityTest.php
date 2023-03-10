@@ -72,4 +72,30 @@ class RecordActivityTest extends TestCase
         $this->assertEquals('task completed', $project->activities->last()->description);
         $this->assertCount(3, $project->activities);
     }
+
+    /** @test */
+    public function project_task_is_uncompleted()
+    {
+        $user = $this->signIn();
+
+        $project = ProjectFactory::ownedBy($user)->create();
+
+        $task = $project->addTask('Test Task');
+
+        $this->patch($task->path(), [
+            'body' => $task->body,
+            'completed' => true
+        ]);
+
+        $this->assertCount(3, $project->activities);
+
+        $this->patch($task->path(), [
+            'body' => $task->body,
+            'completed' => false
+        ]);
+
+        $activities = $project->fresh()->activities;
+        $this->assertEquals('task uncompleted', $activities->last()->description);
+        $this->assertCount(4, $activities);
+    }
 }
