@@ -98,4 +98,21 @@ class RecordActivityTest extends TestCase
         $this->assertEquals('task uncompleted', $activities->last()->description);
         $this->assertCount(4, $activities);
     }
+
+    /** @test */
+    public function project_task_is_deleted()
+    {
+        $user = $this->signIn();
+
+        $project = ProjectFactory::ownedBy($user)->create();
+
+        $task = $project->addTask('Test Task');
+
+        $this->delete($task->path());
+
+        $project->refresh();
+
+        $this->assertEquals('task deleted', $project->activities->last()->description);
+        $this->assertCount(3, $project->activities);
+    }
 }

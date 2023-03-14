@@ -29,4 +29,15 @@ class TaskObserver
             ? $task->project->recordActivity('task completed')
             : $task->project->recordActivity('task uncompleted');
     }
+
+    /**
+     * Handele the Task "deleted" event.
+     *
+     * @param Task $task
+     * @return void
+     */
+    public function deleted(Task $task)
+    {
+        $task->project->recordActivity('task deleted');
+    }
 }

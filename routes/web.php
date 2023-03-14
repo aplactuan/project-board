@@ -40,6 +40,7 @@ Route::name('project.')->middleware('auth')->group(function () {
     Route::name('task.')->group(function() {
         Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store'])->name('index');
         Route::patch('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'update'])->name('update');
+        Route::delete('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'destroy'])->name('update');
     });
 });
 

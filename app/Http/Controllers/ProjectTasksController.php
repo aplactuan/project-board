@@ -41,4 +41,11 @@ class ProjectTasksController extends Controller
 
         return redirect($project->path());
     }
+
+    public function destroy(Project $project, Task $task)
+    {
+        $task->delete();
+
+        return redirect($project->path());
+    }
 }
