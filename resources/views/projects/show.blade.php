@@ -62,9 +62,10 @@
                 </div>
                 <div class="lg:w-1/4 px-2">
                     <div class="card p-4">
-                        {{ $project->title }}
-                        {{ $project->description }}
+                        <h2 class="font-bold mb-3">{{ $project->title }}</h2>
+                        <p>{{ $project->description }}</p>
                     </div>
+                    @include('projects.activities.card')
                 </div>
             </div>
         </div>
