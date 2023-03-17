@@ -51,7 +51,7 @@ class RecordActivityTest extends TestCase
             'project_id' => $project->id
         ]));
 
-        $this->assertEquals('task_created', $project->activities->last()->description);
+        $this->assertEquals('task-created', $project->activities->last()->description);
         $this->assertCount(2, $project->activities);
     }
 
@@ -69,7 +69,7 @@ class RecordActivityTest extends TestCase
             'completed' => true
         ]);
 
-        $this->assertEquals('task_completed', $project->activities->last()->description);
+        $this->assertEquals('task-completed', $project->activities->last()->description);
         $this->assertCount(3, $project->activities);
     }
 
@@ -95,7 +95,7 @@ class RecordActivityTest extends TestCase
         ]);
 
         $activities = $project->fresh()->activities;
-        $this->assertEquals('task_uncompleted', $activities->last()->description);
+        $this->assertEquals('task-uncompleted', $activities->last()->description);
         $this->assertCount(4, $activities);
     }
 
@@ -112,7 +112,7 @@ class RecordActivityTest extends TestCase
 
         $project->refresh();
 
-        $this->assertEquals('task_deleted', $project->activities->last()->description);
+        $this->assertEquals('task-deleted', $project->activities->last()->description);
         $this->assertCount(3, $project->activities);
     }
 }

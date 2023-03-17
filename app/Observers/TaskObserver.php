@@ -14,7 +14,7 @@ class TaskObserver
      */
     public function created(Task $task)
     {
-        $task->project->recordActivity('task_created');
+        $task->project->recordActivity('task-created');
     }
 
     /**
@@ -26,8 +26,8 @@ class TaskObserver
     public function updated(Task $task)
     {
         $task->completed
-            ? $task->project->recordActivity('task_completed')
-            : $task->project->recordActivity('task_uncompleted');
+            ? $task->project->recordActivity('task-completed')
+            : $task->project->recordActivity('task-uncompleted');
     }
 
     /**
@@ -38,6 +38,6 @@ class TaskObserver
      */
     public function deleted(Task $task)
     {
-        $task->project->recordActivity('task_deleted');
+        $task->project->recordActivity('task-deleted');
     }
 }
