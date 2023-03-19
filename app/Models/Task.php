@@ -44,4 +44,17 @@ class Task extends Model
             'completed' => false
         ]);
     }
+
+    public function activity()
+    {
+        return $this->morphMany(Activity::class, 'subject');
+    }
+
+    public function recordActivity($description)
+    {
+        return $this->activity()->create([
+            'project_id' => 1,
+            'description' => $description
+        ]);
+    }
 }

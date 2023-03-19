@@ -51,7 +51,11 @@ class RecordActivityTest extends TestCase
             'project_id' => $project->id
         ]));
 
-        $this->assertEquals('task-created', $project->activities->last()->description);
+        tap($project->activities->last(), function ($activity) {
+            $this->assertEquals('task-created', $activity->description);
+            $this->assertInstanceOf(Task::class, $activity->subject);
+        });
+
         $this->assertCount(2, $project->activities);
     }
 
