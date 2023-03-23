@@ -12,4 +12,9 @@ class Activity extends Model
     protected $fillable = [
         'description'
     ];
+
+    public function subject()
+    {
+        return $this->morphTo();
+    }
 }

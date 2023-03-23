@@ -47,14 +47,12 @@ class Task extends Model
 
     public function activity()
     {
-        return $this->morphMany(Activity::class, 'subject');
+        return $this->morphMany(Activity::class, 'subject')->latest();
     }
 
     public function recordActivity($description)
     {
-        return $this->activity()->create([
-            'project_id' => 1,
-            'description' => $description
-        ]);
+        //dd($this->project->id);
+        $this->activity()->save($this->project->recordActivity($description));
     }
 }
