@@ -26,8 +26,8 @@ class TaskObserver
     public function updated(Task $task)
     {
         $task->completed
-            ? $task->project->recordActivity('task-completed')
-            : $task->project->recordActivity('task-uncompleted');
+            ? $task->recordActivity('task-completed')
+            : $task->recordActivity('task-uncompleted');
     }
 
     /**

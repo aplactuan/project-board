@@ -1,1 +1,1 @@
-A task was set to incomplete
+You uncompleted {{  $activity->task->body }}

@@ -1,1 +1,1 @@
-A task is completed
+You completed {{  $activity->task->body }}
