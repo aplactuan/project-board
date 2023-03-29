@@ -31,12 +31,23 @@ class RecordActivityTest extends TestCase
         $user = $this->signIn();
 
         $project = ProjectFactory::ownedBy($user)->create();
+        $oldTitle = $project->title;
 
         $this->patch($project->path(), [
             'title' => 'Change the title'
         ]);
 
-        $this->assertEquals('updated', $project->activities->last()->description);
+        tap($project->activities->last(), function ($activity) use ($oldTitle) {
+            $this->assertEquals('updated', $activity->description);
+
+            $expected = [
+                'before' => ['title' => $oldTitle],
+                'after' => ['title' => 'Change the title']
+            ];
+
+            $this->assertEquals($expected, $activity->change);
+        });
+
         $this->assertCount(2, $project->activities);
     }
 

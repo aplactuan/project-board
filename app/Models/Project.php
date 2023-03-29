@@ -40,6 +40,12 @@ class Project extends Model
 
     public function recordActivity($description)
     {
-        return $this->activities()->create(compact('description'));
+        return $this->activities()->create([
+            'description' => $description,
+            'change' => [
+                'before' => [],
+                'after' => []
+            ]
+        ]);
     }
 }
