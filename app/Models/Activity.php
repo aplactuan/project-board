@@ -11,11 +11,11 @@ class Activity extends Model
 
     protected $fillable = [
         'description',
-        'change'
+        'changes'
     ];
 
     protected $casts = [
-        'change' => 'array'
+        'changes' => 'array'
     ];
 
     public function subject()

@@ -25,6 +25,7 @@ class ProjectObserver
      */
     public function updated(Project $project)
     {
+        $project->old = $project->getRawOriginal();
         $project->recordActivity('updated');
     }
 

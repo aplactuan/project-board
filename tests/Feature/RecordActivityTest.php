@@ -45,7 +45,7 @@ class RecordActivityTest extends TestCase
                 'after' => ['title' => 'Change the title']
             ];
 
-            $this->assertEquals($expected, $activity->change);
+            $this->assertEquals($expected, $activity->changes);
         });
 
         $this->assertCount(2, $project->activities);

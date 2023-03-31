@@ -13,6 +13,8 @@ class Project extends Model
 
     protected $guarded = [];
 
+    public $old = [];
+
     public function path()
     {
         return '/projects/' . $this->id;
@@ -42,9 +44,9 @@ class Project extends Model
     {
         return $this->activities()->create([
             'description' => $description,
-            'change' => [
+            'changes' => [
                 'before' => [],
-                'after' => []
+                'after' => array_diff($this->getAttributes(), $this->old)
             ]
         ]);
     }
