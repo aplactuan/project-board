@@ -21,8 +21,11 @@ class RecordActivityTest extends TestCase
 
         $project = Project::where('title', $attributes['title'])->first();
 
+        tap($project->activities->last(), function ($activity) {
+            $this->assertEquals('created', $activity->description);
+            $this->assertNull($activity->changes);
+        });
         $this->assertCount(1, $project->activities);
-        $this->assertEquals('created', $project->activities->first()->description);
     }
 
     /** @test  */

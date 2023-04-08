@@ -44,10 +44,20 @@ class Project extends Model
     {
         return $this->activities()->create([
             'description' => $description,
-            'changes' => [
+            'changes' => $this->changes($description)
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function changes($description)
+    {
+        if ($description === 'updated') {
+            return [
                 'before' => array_diff($this->old, $this->getAttributes()),
                 'after' => array_diff($this->getAttributes(), $this->old)
-            ]
-        ]);
+            ];
+        }
     }
 }
