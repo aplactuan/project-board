@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 
 class Project extends Model
 {
@@ -55,8 +56,8 @@ class Project extends Model
     {
         if ($description === 'updated') {
             return [
-                'before' => array_diff($this->old, $this->getAttributes()),
-                'after' => array_diff($this->getAttributes(), $this->old)
+                'before' => Arr::except(array_diff($this->old, $this->getAttributes()), 'updated_at'),
+                'after' => Arr::except($this->getChanges(), 'updated_at')
             ];
         }
     }
