@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
 {
-    use HasFactory;
+    use HasFactory, RecordsActivity;
 
     protected $fillable = [
         'body',
@@ -45,14 +46,13 @@ class Task extends Model
         ]);
     }
 
-    public function activity()
+    public function activities()
     {
         return $this->morphMany(Activity::class, 'subject')->latest();
     }
 
-    public function recordActivity($description)
-    {
-        //dd($this->project->id);
-        $this->activity()->save($this->project->recordActivity($description));
-    }
+//    public function recordActivity($description)
+//    {
+//        $this->activities()->save($this->project->recordActivity($description));
+//    }
 }
