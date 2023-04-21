@@ -11,6 +11,8 @@ class Task extends Model
 {
     use HasFactory, RecordsActivity;
 
+    public $old = [];
+
     protected $fillable = [
         'body',
         'completed'

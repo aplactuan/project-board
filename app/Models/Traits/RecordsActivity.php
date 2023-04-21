@@ -11,8 +11,12 @@ trait RecordsActivity
         $this->activities()->create([
             'description' => $description,
             'changes' => $this->changes(),
-            'project_id' => $this->project_id
         ]);
+    }
+
+    public function recordTaskActivity($description)
+    {
+        $this->activities()->save($this->project->recordActivity($description));
     }
 
     /**
