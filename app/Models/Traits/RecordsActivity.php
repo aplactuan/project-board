@@ -8,7 +8,7 @@ trait RecordsActivity
 {
     public function recordActivity($description)
     {
-        $this->activities()->create([
+        return $this->activities()->create([
             'description' => $description,
             'changes' => $this->changes(),
         ]);
