@@ -9,14 +9,10 @@ trait RecordsActivity
     public function recordActivity($description)
     {
         return $this->activities()->create([
+            'project_id' => $this->project_id,
             'description' => $description,
             'changes' => $this->changes(),
         ]);
-    }
-
-    public function recordTaskActivity($description)
-    {
-        $this->activities()->save($this->project->recordActivity($description));
     }
 
     /**
