@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Activity;
 use App\Models\Project;
 use App\Models\Task;
 use Facades\Tests\Setup\ProjectFactory;

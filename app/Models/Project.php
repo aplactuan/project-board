@@ -15,8 +15,6 @@ class Project extends Model
 
     protected $guarded = [];
 
-    public $old = [];
-
     public function path()
     {
         return '/projects/' . $this->id;
@@ -32,10 +30,10 @@ class Project extends Model
         return $this->hasMany(Task::class);
     }
 
-    public function activities()
-    {
-        return $this->hasMany(Activity::class)->latest();
-    }
+//    public function activities()
+//    {
+//        return $this->hasMany(Activity::class)->latest();
+//    }
 
     public function addTask($body)
     {

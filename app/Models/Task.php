@@ -11,8 +11,6 @@ class Task extends Model
 {
     use HasFactory, RecordsActivity;
 
-    public $old = [];
-
     protected $fillable = [
         'body',
         'completed'
@@ -47,14 +45,4 @@ class Task extends Model
             'completed' => false
         ]);
     }
-
-    public function activities()
-    {
-        return $this->morphMany(Activity::class, 'subject')->latest();
-    }
-
-//    public function recordActivity($description)
-//    {
-//        $this->activities()->save($this->project->recordActivity($description));
-//    }
 }
