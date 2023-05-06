@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\Activity;
+use App\Models\Project;
 use Illuminate\Support\Arr;
 
 trait RecordsActivity
@@ -12,7 +13,7 @@ trait RecordsActivity
     public function recordActivity($description)
     {
         return $this->activities()->create([
-            'project_id' => $this->id,
+            'project_id' => $this->project_id ?? $this->id,
             'description' => $description,
             'changes' => $this->changes(),
         ]);
@@ -33,6 +34,10 @@ trait RecordsActivity
 
     public function activities()
     {
+        if ($this instanceof Project) {
+            return $this->hasMany(Activity::class)->latest();
+        }
+
         return $this->morphMany(Activity::class, 'subject')->latest();
     }
 }

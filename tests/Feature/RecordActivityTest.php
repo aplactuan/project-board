@@ -88,7 +88,7 @@ class RecordActivityTest extends TestCase
             'completed' => true
         ]);
 
-        tap($project->activities->last(), function ($activity) {
+        tap($project->fresh()->activities->last(), function ($activity) {
             $this->assertEquals('task-completed', $activity->description);
             $this->assertInstanceOf(Task::class, $activity->subject);
         });
