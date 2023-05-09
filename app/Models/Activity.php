@@ -12,7 +12,8 @@ class Activity extends Model
     protected $fillable = [
         'project_id',
         'description',
-        'changes'
+        'changes',
+        'user_id'
     ];
 
     protected $casts = [
@@ -22,5 +23,10 @@ class Activity extends Model
     public function subject()
     {
         return $this->morphTo();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

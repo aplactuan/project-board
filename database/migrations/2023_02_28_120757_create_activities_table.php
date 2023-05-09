@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')->index()->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->nullableMorphs('subject');
             $table->text('changes')->nullable();
             $table->string('description');

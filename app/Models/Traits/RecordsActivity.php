@@ -16,6 +16,7 @@ trait RecordsActivity
             'project_id' => $this->project_id ?? $this->id,
             'description' => $description,
             'changes' => $this->changes(),
+            'user_id' => ($this->project ?? $this)->owner->id
         ]);
     }
 
