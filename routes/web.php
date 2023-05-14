@@ -39,9 +39,9 @@ Route::name('projects.')->middleware('auth')->group(function () {
     Route::patch('/projects/{project}', [ProjectController::class, 'update']);
     Route::delete('/projects/{project}', [ProjectController::class, 'destroy']);
     Route::name('task.')->group(function() {
-        Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store'])->name('index');
+        Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store'])->name('add');
         Route::patch('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'update'])->name('update');
-        Route::delete('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'destroy'])->name('update');
+        Route::delete('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'destroy'])->name('delete');
     });
 });
 
