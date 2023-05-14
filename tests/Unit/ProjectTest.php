@@ -46,8 +46,6 @@ class ProjectTest extends TestCase
 
         $project->invite($user = User::factory()->create());
 
-        $this->assertContains($user, $project->members);
+        $this->assertTrue($project->members->contains($user));
     }
-
-
 }

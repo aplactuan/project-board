@@ -22,8 +22,10 @@ class InvitationsTest extends TestCase
 
         $this->signIn($newUser);
 
-        $this->post(route('project.1task.add', $project), $task = Task::factory()->raw());
+        $this->post(route('projects.task.add', $project), $task = Task::factory()->raw([
+            'project_id' => $project->id
+        ]));
 
-        $this->assertContains($task, $project->tasks);
+        $this->assertDatabaseHas('tasks', $task);
     }
 }
