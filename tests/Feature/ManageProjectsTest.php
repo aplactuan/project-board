@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Facades\Tests\Setup\ProjectFactory;
@@ -149,6 +150,23 @@ class ManageProjectsTest extends TestCase
         $this->get($project->path())
             ->assertSee($project->title)
             ->assertSee($project->description);
+    }
+
+    /** @test */
+    public function a_user_can_view_owned_project_and_invited_project()
+    {
+        $john = $this->signIn();
+
+        ProjectFactory::ownedBy($john)->create();
+
+        $sally = User::factory()->create();
+
+        $project = ProjectFactory::ownedBy($sally)->create();
+
+        $project->invite($john);
+
+        $this->get(route('projects.index'))
+            ->assertSee($project->title);
     }
 
     /** @test  */

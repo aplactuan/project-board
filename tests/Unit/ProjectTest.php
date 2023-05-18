@@ -4,7 +4,9 @@ namespace Tests\Unit;
 
 use App\Models\Project;
 use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Facades\Tests\Setup\ProjectFactory;
 use Tests\TestCase;
 
 class ProjectTest extends TestCase
@@ -47,5 +49,20 @@ class ProjectTest extends TestCase
         $project->invite($user = User::factory()->create());
 
         $this->assertTrue($project->members->contains($user));
+    }
+
+    public function test_it_has_manage_projects()
+    {
+        $john = User::factory()->create();
+
+        ProjectFactory::ownedBy($john)->create();
+
+        $this->assertCount(1, $john->manageProjects());
+
+        $sally = User::factory()->create();
+        $project = ProjectFactory::ownedBy($sally)->create();
+        $project->invite($john);
+
+        $this->assertCount(2, $john->manageProjects());
     }
 }
