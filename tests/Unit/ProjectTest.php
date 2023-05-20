@@ -60,9 +60,14 @@ class ProjectTest extends TestCase
         $this->assertCount(1, $john->manageProjects());
 
         $sally = User::factory()->create();
-        $project = ProjectFactory::ownedBy($sally)->create();
-        $project->invite($john);
+        $brad = User::factory()->create();
 
+        $project = tap(ProjectFactory::ownedBy($sally)->create())->invite($brad);
+        //this should still be one because john is still not invitesd
+        $this->assertCount(1, $john->manageProjects());
+
+        $project->invite($john);
+        //this will be 2 now since john is invited by sally
         $this->assertCount(2, $john->manageProjects());
     }
 }
