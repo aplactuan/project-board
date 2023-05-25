@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectInviteController;
 use App\Http\Controllers\ProjectTasksController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,13 +32,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::name('projects.')->middleware('auth')->group(function () {
-    Route::get('/projects', [ProjectController::class, 'index'])->name('index');
-    Route::post('/projects', [ProjectController::class, 'store']);
-    Route::get('/projects/create', [ProjectController::class, 'create']);
-    Route::get('/projects/{project}', [ProjectController::class, 'show']);
-    Route::get('/projects/{project}/edit', [ProjectController::class, 'edit']);
-    Route::patch('/projects/{project}', [ProjectController::class, 'update']);
-    Route::delete('/projects/{project}', [ProjectController::class, 'destroy']);
+    Route::resource('/projects', ProjectController::class);
+    Route::post('/projects/{project}/invite', ProjectInviteController::class);
     Route::name('task.')->group(function() {
         Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store'])->name('add');
         Route::patch('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'update'])->name('update');

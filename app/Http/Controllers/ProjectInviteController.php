@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Project;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class ProjectInviteController extends Controller
+{
+    public function __invoke(Project $project, Request $request)
+    {
+        $user = User::where('email', $request->get('email'))->first();
+
+        $project->invite($user);
+
+        return redirect($project->path());
+    }
+}
