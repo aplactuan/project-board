@@ -8,16 +8,40 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Facades\Tests\Setup\ProjectFactory;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class InvitationsTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @test */
+    public function only_the_project_owner_can_invite_user()
+    {
+        $project = ProjectFactory::ownedBy(User::factory()->create())->create();
+
+        $this->signIn(User::factory()->create());
+
+        $inviteUser = User::factory()->create();
+
+        $this->post($project->path() . '/invite', [
+            'email' => $inviteUser->email
+        ])->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    public function only_existing_user_email_can_be_invited()
+    {
+        $project = ProjectFactory::ownedBy($this->signIn(User::factory()->create()))->create();
+
+        $this->post($project->path() . '/invite', [
+            'email' => 'board@test.com'
+        ])->assertSessionHasErrors('email');
+    }
+
     /** @test  */
     public function it_can_invite_other_user_to_update_the_project()
     {
-        $this->withoutExceptionHandling();
         $project = ProjectFactory::ownedBy($owner = $this->signIn())->create();
 
         $john = User::factory()->create();
