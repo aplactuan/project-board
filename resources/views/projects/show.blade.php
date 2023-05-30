@@ -64,8 +64,13 @@
                     <div class="card p-4">
                         <h2 class="font-bold mb-3">{{ $project->title }}</h2>
                         <p>{{ $project->description }}</p>
+                        <form action="" method="POST">
+                            @method('DELETE')
+                            <button type="submit">Delete</button>
+                        </form>
                     </div>
                     @include('projects.activities.card')
+                    @include('projects.users.invite')
                 </div>
             </div>
         </div>
