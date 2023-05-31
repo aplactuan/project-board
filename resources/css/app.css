@@ -11,7 +11,7 @@
 }
 
 .card {
-    @apply bg-white col-span-1 divide-gray-200 divide-y rounded-lg shadow
+    @apply bg-white col-span-1 rounded-lg shadow
 }
 
 

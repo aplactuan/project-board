@@ -64,10 +64,13 @@
                     <div class="card p-4">
                         <h2 class="font-bold mb-3">{{ $project->title }}</h2>
                         <p>{{ $project->description }}</p>
-                        <form action="" method="POST">
-                            @method('DELETE')
-                            <button type="submit">Delete</button>
-                        </form>
+                        <div class="mt-4 flex justify-end">
+                            <form action="" method="POST">
+                                @method('DELETE')
+                                <button type="submit" class="text-sm text-blue-500">Delete</button>
+                            </form>
+                        </div>
+
                     </div>
                     @include('projects.activities.card')
                     @include('projects.users.invite')
