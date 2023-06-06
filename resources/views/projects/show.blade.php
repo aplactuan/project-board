@@ -59,6 +59,7 @@
                             <button type="submit" class="btn btn-blue">Save Notes</button>
                         </div>
                     </form>
+                    @include("includes.errors")
                 </div>
                 <div class="lg:w-1/4 px-2">
                     <div class="card p-4">

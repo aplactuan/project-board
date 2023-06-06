@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
 
 Route::name('projects.')->middleware('auth')->group(function () {
     Route::resource('/projects', ProjectController::class);
-    Route::post('/projects/{project}/invite', ProjectInviteController::class);
+    Route::post('/projects/{project}/invite', ProjectInviteController::class)->name('invite');
     Route::name('task.')->group(function() {
         Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store'])->name('add');
         Route::patch('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'update'])->name('update');
