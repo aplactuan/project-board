@@ -1,7 +1,7 @@
-@if ($errors->any())
+@if ($errors->{$bag ?? 'default'}->any())
     <div class="alert alert-danger">
         <ul>
-            @foreach ($errors->all() as $error)
+            @foreach ($errors->invitations->all() as $error)
                 <li class="text-sm text-red-600">{{ $error }}</li>
             @endforeach
         </ul>

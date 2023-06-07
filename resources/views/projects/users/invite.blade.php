@@ -8,5 +8,7 @@
             <button type="submit" class="btn btn-blue">Invite</button>
         </div>
     </form>
-    @include("includes.errors")
+    <div class="mt-2">
+        @include("includes.errors", ['bag' => 'invitations'])
+    </div>
 </div>
