@@ -74,7 +74,9 @@
 
                     </div>
                     @include('projects.activities.card')
-                    @include('projects.users.invite')
+                    @can('manage', $project)
+                        @include('projects.users.invite')
+                    @endcan
                 </div>
             </div>
         </div>

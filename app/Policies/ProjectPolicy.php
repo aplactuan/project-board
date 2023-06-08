@@ -21,6 +21,11 @@ class ProjectPolicy
         //
     }
 
+    public function manage(User $user, Project $project)
+    {
+        return $user->is($project->owner);
+    }
+
     /**
      * Determine whether the user can view the model.
      *

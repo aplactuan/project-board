@@ -18,14 +18,26 @@ class InvitationsTest extends TestCase
     /** @test */
     public function only_the_project_owner_can_invite_user()
     {
-        $project = ProjectFactory::ownedBy(User::factory()->create())->create();
+        $project = ProjectFactory::ownedBy($owner = User::factory()->create())->create();
 
         $this->signIn(User::factory()->create());
 
-        $inviteUser = User::factory()->create();
+        $invitedUser = User::factory()->create();
 
         $this->post($project->path() . '/invite', [
-            'email' => $inviteUser->email
+            'email' => $invitedUser->email
+        ])->assertStatus(Response::HTTP_FORBIDDEN);
+
+        $this->signIn($owner);
+
+        $this->post($project->path() . '/invite', [
+            'email' => $invitedUser->email
+        ])->assertRedirect($project->path());
+
+        $this->signIn($invitedUser);
+
+        $this->post($project->path() . '/invite', [
+            'email' => $invitedUser->email
         ])->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
