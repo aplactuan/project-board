@@ -65,13 +65,14 @@
                     <div class="card p-4">
                         <h2 class="font-bold mb-3">{{ $project->title }}</h2>
                         <p>{{ $project->description }}</p>
-                        <div class="mt-4 flex justify-end">
-                            <form action="" method="POST">
-                                @method('DELETE')
-                                <button type="submit" class="text-sm text-blue-500">Delete</button>
-                            </form>
-                        </div>
-
+                        @can('manage', $project)
+                            <div class="mt-4 flex justify-end">
+                                <form action="" method="POST">
+                                    @method('DELETE')
+                                    <button type="submit" class="text-sm text-blue-500">Delete</button>
+                                </form>
+                            </div>
+                        @endcan
                     </div>
                     @include('projects.activities.card')
                     @can('manage', $project)

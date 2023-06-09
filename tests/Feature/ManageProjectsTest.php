@@ -66,6 +66,13 @@ class ManageProjectsTest extends TestCase
 
         $this->delete($project->path())
             ->assertStatus(403);
+
+        $project->invite($invitedUser = User::factory()->create());
+
+        $this->signIn($invitedUser);
+
+        $this->delete($project->path())
+            ->assertStatus(403);
     }
 
     /** @test */
