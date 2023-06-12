@@ -30,28 +30,22 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_user_can_create_a_project()
     {
-        $this->signIn();
+        $user = $this->signIn();
 
         $this->get('/projects/create')->assertStatus(200);
 
-        $attributes = [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->text,
-            'notes' => 'General notes'
-        ];
+        $response = $this->followingRedirects()
+            ->post('/projects', $attributes = Project::factory()->raw([
+            'owner_id' => $user->id
+            ]));
 
-        $this->post('/projects', $attributes)->assertRedirect('/projects');
-
-        $project = Project::where($attributes)->first();
+        $response->assertSee($attributes['title'])
+            ->assertSee($attributes['description'])
+            ->assertSee($attributes['notes']);
 
         $this->assertDatabaseHas('projects', $attributes);
 
         $this->get('/projects')->assertSee($attributes['title']);
-
-        $this->get($project->path())
-            ->assertSee($attributes['title'])
-            ->assertSee($attributes['description'])
-            ->assertSee($attributes['notes']);
     }
 
     /** @test */

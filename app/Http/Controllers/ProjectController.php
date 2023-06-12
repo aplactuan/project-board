@@ -30,9 +30,9 @@ class ProjectController extends Controller
 
     public function store(ProjectRequest $request)
     {
-        $request->user()->projects()->create($request->validated());
+        $project = $request->user()->projects()->create($request->validated());
 
-        return redirect('/projects');
+        return redirect($project->path());
     }
 
     public function update(ProjectRequest $request, Project $project)
