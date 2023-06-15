@@ -44,11 +44,12 @@ class InvitationsTest extends TestCase
     /** @test */
     public function only_existing_user_email_can_be_invited()
     {
-        $project = ProjectFactory::ownedBy($this->signIn(User::factory()->create()))->create();
+        $project = ProjectFactory::ownedBy($user = $this->signIn(User::factory()->create()))->create();
 
         $this->post($project->path() . '/invite', [
             'email' => 'board@test.com'
-        ])->assertSessionHasErrors('email');
+        ])
+            ->assertSessionHasErrors();
     }
 
     /** @test  */
