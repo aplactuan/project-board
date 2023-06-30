@@ -49,6 +49,28 @@ class ManageProjectsTest extends TestCase
     }
 
     /** @test */
+    public function it_can_add_project_with_tasks()
+    {
+        $user = $this->signIn();
+
+        $attributes = array_merge(
+            Project::factory()->raw(['owner_id' => $user->id]),
+            ['tasks' => [
+                'body' => 'First Task'
+            ]]
+        );
+
+        $response = $this->followingRedirects()
+            ->post('/projects', $attributes);
+
+        //$response->assertSee('First Task');
+
+        $this->assertDatabaseHas('tasks', [
+            'body' => 'First Task'
+        ]);
+    }
+
+    /** @test */
     public function guest_and_not_project_owner_cannot_delete_a_project()
     {
         $project = Project::factory()->create();

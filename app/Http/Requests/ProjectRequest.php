@@ -32,7 +32,8 @@ class ProjectRequest extends FormRequest
         return [
             'title' => 'sometimes|required',
             'description' => 'sometimes|required',
-            'notes' => 'nullable|min:3'
+            'notes' => 'nullable|min:3',
+            'tasks' => 'array'
         ];
     }
 }

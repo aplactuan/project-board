@@ -30,7 +30,12 @@ class ProjectController extends Controller
 
     public function store(ProjectRequest $request)
     {
-        $project = $request->user()->projects()->create($request->validated());
+        $project = $request->user()->projects()->create($request->except('tasks'));
+        if ($tasks = $request->tasks) {
+            foreach ($tasks as $task) {
+                $project->addTask($task);
+            }
+        }
 
         return redirect($project->path());
     }
